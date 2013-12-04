@@ -18,5 +18,4 @@ Options:
   --no-vulns      Do not create new vulnerabilities when importing.
   --no-creds      Do not create new credentials when importing.
   --dry-run       Dump JSON to stdout and do not insert/update Lair.
-
 `
