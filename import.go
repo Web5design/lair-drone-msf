@@ -60,8 +60,20 @@ func msfImport(s *mgo.Session, lpid, fileName string, scope []string) error {
 	hc := s.DB("").C("hosts")
 	pc := s.DB("").C("ports")
 
+	checkScope := false
+	scopeSet := make(map[string]bool)
+	if len(scope) > 0 {
+		checkScope = true
+		for _, h := range scope {
+			scopeSet[h] = true
+		}
+	}
+
 	for _, host := range m.Hosts {
 		if host.State != "alive" {
+			continue
+		}
+		if checkScope && !scopeSet[host.Address] {
 			continue
 		}
 		lhost, err := golair.NewHost(lpid, host.Address, "Metasploit")
