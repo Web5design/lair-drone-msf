@@ -15,7 +15,5 @@ Options:
                   given a file containing a line separated
                   list of hosts and/or networks (CIDR).
   --no-hosts      Do not create new hosts when importing.
-  --no-vulns      Do not create new vulnerabilities when importing.
   --no-creds      Do not create new credentials when importing.
-  --dry-run       Dump JSON to stdout and do not insert/update Lair.
 `

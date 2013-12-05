@@ -83,12 +83,10 @@ func main() {
 
 	if imp {
 		nh := arguments["--no-hosts"].(bool)
-		nv := arguments["--no-vulns"].(bool)
 		nc := arguments["--no-creds"].(bool)
-		dry := arguments["--dry-run"].(bool)
 		// TODO: Build list of valid scope
 		scope := []string{}
-		err = msfImport(s, lpid, f, scope, nh, nv, nc, dry)
+		err = msfImport(s, lpid, f, scope, nh, nc)
 		if err != nil {
 			log.Fatal("Error importing into Lair. Error: ", err.Error())
 		}
