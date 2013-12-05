@@ -82,8 +82,15 @@ func main() {
 	}
 
 	if imp {
-		// TODO: Build list of valid scope
+		scopeFile := arguments["--scope"]
 		scope := []string{}
+		switch scopeFile.(type) {
+		case string:
+			scope, err = buildScope(scopeFile.(string))
+			if err != nil {
+				log.Fatal("Error building scope from file. Error: ", err.Error())
+			}
+		}
 		err = msfImport(s, lpid, f, scope)
 		if err != nil {
 			log.Fatal("Error importing into Lair. Error: ", err.Error())
