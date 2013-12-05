@@ -46,7 +46,7 @@ type Cred struct {
 	Active bool   `xml:"active"`
 }
 
-func msfImport(s *mgo.Session, lpid, fileName string, scope []string, nh bool, nc bool) error {
+func msfImport(s *mgo.Session, lpid, fileName string, scope []string) error {
 	data, err := ioutil.ReadFile(fileName)
 	if err != nil {
 		return err

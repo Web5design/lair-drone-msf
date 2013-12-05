@@ -14,6 +14,4 @@ Options:
   --scope <file>  Only import or export hosts that are in a
                   given a file containing a line separated
                   list of hosts and/or networks (CIDR).
-  --no-hosts      Do not create new hosts when importing.
-  --no-creds      Do not create new credentials when importing.
 `
