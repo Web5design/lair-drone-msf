@@ -6,7 +6,6 @@ import (
 	"labix.org/v2/mgo"
 	"labix.org/v2/mgo/bson"
 	"os"
-	"log"
 	"strconv"
 	"strings"
 )
@@ -20,21 +19,10 @@ func msfExport(s *mgo.Session, lpid, fileName string) error {
 	xmlOut = append(xmlOut, `<?xml version="1.0" encoding="UTF-8"?>`)
 	xmlOut = append(xmlOut, `<MetasploitV4>`)
 	xmlOut = append(xmlOut, `<generated time="" user="root" project="default" product="framework"/>`)
-
-	// assign query to array of host structs from golair here
-	// s is a session to a mongodb instance
-	// DB("") returns a Database type, it is empty which uses the database that was in the URL provided to the Session object
-	// C("hosts") returns a value representing the "hosts" collection
-	// find prepares a query using the provided document in the form of a map or struct value capable of being marshalled with bson
-	s.DB("").C("hosts").Find(bson.M{"project_id": lpid}).All(&hosts)
-
 	xmlOut = append(xmlOut, `<hosts>`)
 
-	// loop on each host that was returned
+	s.DB("").C("hosts").Find(bson.M{"project_id": lpid}).All(&hosts)
 	for _, host := range hosts {
-		// retrieve all ports for each host which should also contain credential information
-		//fmt.Println(host.StringAddr)
-
 		// New host, kick off xml starter
 		xmlOut = append(xmlOut, `<host>`)
 		xmlOut = append(xmlOut, `<id></id>`)
@@ -72,7 +60,6 @@ func msfExport(s *mgo.Session, lpid, fileName string) error {
 		xmlOut = append(xmlOut, `<services>`)
 		ports := []golair.Port{}
 		s.DB("").C("ports").Find(bson.M{"host_id": host.ID}).All(&ports)
-
 		for _, port := range ports {
 			xmlOut = append(xmlOut, `<service>`+
 				`<id></id>`+
@@ -108,7 +95,7 @@ func msfExport(s *mgo.Session, lpid, fileName string) error {
 
 		// Creds section
 		// Have to loop by port because lair stores creds based on port, can probably do this easier
-		// also need to add logic to add the password OR hash value, not just the password
+		// also need to add logic to add the password OR hash value, not just the password.
 		for _, port := range ports {
 			for _, cred := range port.Credentials {
 				xmlOut = append(xmlOut, `<cred>`+
@@ -125,22 +112,20 @@ func msfExport(s *mgo.Session, lpid, fileName string) error {
 					`</cred>`)
 			}
 		}
-
 		xmlOut = append(xmlOut, `</creds></host>`)
 	}
 
 	xmlOut = append(xmlOut, `</hosts></MetasploitV4>`)
 
-	// Write to file
+	// Write to file.
 	cf, err := os.Create(fileName)
+	defer cf.Close()
 	if err != nil {
-		log.Println("Error writing file: ", err)
+		return err
 	}
-	nf, err := io.WriteString(cf, strings.Join(xmlOut, ""))
+	_, err = io.WriteString(cf, strings.Join(xmlOut, ""))
 	if err != nil {
-		log.Println("Error writing file: ", nf, err)
+		return err
 	}
-	cf.Close()
-
 	return nil
 }
