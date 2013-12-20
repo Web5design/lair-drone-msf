@@ -45,6 +45,7 @@ func main() {
 	db := u.Path[1:]
 	s := &mgo.Session{}
 
+	log.Printf("Attempting to connect to database %s/%s\n", u.Host, u.Path)
 	if opt, ok := q["ssl"]; ok && opt[0] == "true" {
 		var user, pass string
 		if u.User != nil {
@@ -73,6 +74,7 @@ func main() {
 			log.Fatal("Could not connect to database. Error: ", err.Error())
 		}
 	}
+	log.Println("Connection successful")
 
 	c := s.DB(db).C("projects")
 	p := golair.Project{}
@@ -82,6 +84,7 @@ func main() {
 	}
 
 	if imp {
+		log.Printf("Importing into %s\n", lpid)
 		scopeFile := arguments["--scope"]
 		scope := []string{}
 		switch scopeFile.(type) {
@@ -96,11 +99,12 @@ func main() {
 			log.Fatal("Error importing into Lair. Error: ", err.Error())
 		}
 	}
-
 	if exp {
+		log.Printf("Exporting from %s\n", lpid)
 		err = msfExport(s, lpid, f)
 		if err != nil {
 			log.Fatal("Error exporting from Lair. Error: ", err.Error())
 		}
 	}
+	log.Println("Done")
 }
