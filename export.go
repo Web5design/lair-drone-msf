@@ -41,30 +41,30 @@ func msfExport(s *mgo.Session, lpid, fileName string) error {
 			}
 		}
 		xmlOut = append(xmlOut,
-			`<os-name>` + topOs.Fingerprint + `</os-name>`+
-			`<os-flavor></os-flavor>`+
-			`<os-sp/>`+
-			`<os-lang/>`+
-			`<arch/>`+
-			`<workspace-id></workspace-id>`+
-			`<updated-at></updated-at>`+
-			`<purpose>device</purpose>`+
-			`<info/>`+
-			`<comments/>`+
-			`<scope/>`+
-			`<virtual-host/>`+
-			`<note-count></note-count>`+
-			`<vuln-count></vuln-count>`+
-			`<service-count></service-count>`+
-			`<host-detail-count></host-detail-count>`+
-			`<exploit-attempt-count></exploit-attempt-count>`+
-			`<cred-count></cred-count>`+
-			`<nexpose-data-asset-id/>`+
-			`<history-count></history-count>`+
-			`<host_details>`+
-			`</host_details>`+
-			`<exploit_attempts>`+
-			`</exploit_attempts>`)
+			`<os-name>`+topOs.Fingerprint+`</os-name>`+
+				`<os-flavor></os-flavor>`+
+				`<os-sp/>`+
+				`<os-lang/>`+
+				`<arch/>`+
+				`<workspace-id></workspace-id>`+
+				`<updated-at></updated-at>`+
+				`<purpose>device</purpose>`+
+				`<info/>`+
+				`<comments/>`+
+				`<scope/>`+
+				`<virtual-host/>`+
+				`<note-count></note-count>`+
+				`<vuln-count></vuln-count>`+
+				`<service-count></service-count>`+
+				`<host-detail-count></host-detail-count>`+
+				`<exploit-attempt-count></exploit-attempt-count>`+
+				`<cred-count></cred-count>`+
+				`<nexpose-data-asset-id/>`+
+				`<history-count></history-count>`+
+				`<host_details>`+
+				`</host_details>`+
+				`<exploit_attempts>`+
+				`</exploit_attempts>`)
 
 		// Services section
 		xmlOut = append(xmlOut, `<services>`)
