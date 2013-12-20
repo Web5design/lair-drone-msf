@@ -74,24 +74,8 @@ func msfExport(s *mgo.Session, lpid, fileName string) error {
 				`</service>`)
 		}
 
-		// Notes section
-		xmlOut = append(xmlOut, `</services><notes>`+
-			`<note>`+
-			`<id></id>`+
-			`<created-at></created-at>`+
-			`<ntype></ntype>`+
-			`<workspace-id></workspace-id>`+
-			`<service-id/>`+
-			`<host-id></host-id>`+
-			`<updated-at></updated-at>`+
-			`<critical/>`+
-			`<seen/>`+
-			`<data></data>`+
-			`</note>`+
-			`</notes>`+
-			`<vulns>`+
-			`</vulns>`+
-			`<creds>`)
+		// Empty Notes and Vulns section. Open creds.
+		xmlOut = append(xmlOut, `</services><notes></notes><vulns></vulns><creds>`)
 
 		// Creds section
 		// Have to loop by port because lair stores creds based on port, can probably do this easier
