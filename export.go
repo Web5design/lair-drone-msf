@@ -31,7 +31,17 @@ func msfExport(s *mgo.Session, lpid, fileName string) error {
 		xmlOut = append(xmlOut, `<mac/><comm></comm>`)
 		xmlOut = append(xmlOut, `<name></name>`)
 		xmlOut = append(xmlOut, `<state>alive</state>`)
-		xmlOut = append(xmlOut, `<os-name></os-name>`+
+		topOs := &golair.Os{}
+		topOs.Fingerprint = "unknown"
+		top := 0
+		for _, os := range host.Os {
+			if os.Weight > top {
+				top = os.Weight
+				topOs = &os
+			}
+		}
+		xmlOut = append(xmlOut,
+			`<os-name>` + topOs.Fingerprint + `</os-name>`+
 			`<os-flavor></os-flavor>`+
 			`<os-sp/>`+
 			`<os-lang/>`+
