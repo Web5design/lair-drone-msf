@@ -1,6 +1,6 @@
 package main
 
-var usage = `
+const usage = `
 
 Usage:
   drone-msf import [--scope <file>] <lpid> <file>
